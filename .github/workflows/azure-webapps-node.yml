@@ -61,7 +61,7 @@ jobs:
     needs: build
     environment:
       name: 'Development'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      url: ${{ turismo-agencia-tads30-djhectgjgmb2c6a8.brazilsouth-01.azurewebsites.net }}
 
     steps:
     - name: Download artifact from build job
