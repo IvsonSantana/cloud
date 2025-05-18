@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Pé na Estrada</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    input, button { margin: 5px; }
+  </style>
+</head>
+<body>
+  <h1>Pacotes Turísticos</h1>
+  <input id="destino" placeholder="Destino">
+  <input id="preco" placeholder="Preço" type="number">
+  <input id="dataSaida" type="date">
+  <input id="dataRetorno" type="date">
+  <button onclick="criarPacote()">Adicionar Pacote</button>
+  <ul id="listaPacotes"></ul>
+
+  <script>
+    async function carregarPacotes() {
+      const res = await fetch('http://localhost:3000/api/pacotes');
+      const pacotes = await res.json();
+      document.getElementById('listaPacotes').innerHTML =
+        pacotes.map(p => `<li>${p.destino} - R$${p.preco}</li>`).join('');
+    }
+
+    async function criarPacote() {
+      const pacote = {
+        destino: document.getElementById('destino').value,
+        preco: Number(document.getElementById('preco').value),
+        dataSaida: document.getElementById('dataSaida').value,
+        dataRetorno: document.getElementById('dataRetorno').value,
+      };
+      await fetch('http://localhost:3000/api/pacotes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(pacote)
+      });
+      carregarPacotes();
+    }
+
+    carregarPacotes();
+  </script>
+</body>
+</html>
